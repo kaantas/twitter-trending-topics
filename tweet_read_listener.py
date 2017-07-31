@@ -22,13 +22,12 @@ class TweetListener(StreamListener):
 	def on_data(self, data):
 		try:
 			json_data = json.loads(data)
-			words = json_data['text'].split(" ")
+			words = json_data['text'].split()
 			ls = list(filter(lambda x: x.lower().startswith('#'), words))
 			if(len(ls)!=0):
-				print("\n".join(map(str,ls)))
-				for word in ls:				
+				for word in ls:
+					print(word)		
 					self.producer.produce(bytes(word,'utf-8'))
-				#self.producer.produce(bytes(json_data["text"],'utf-8'))
 			return True
 		except KeyError:
 			return True
